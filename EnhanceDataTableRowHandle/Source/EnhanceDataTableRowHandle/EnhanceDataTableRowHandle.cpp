@@ -20,6 +20,8 @@ void FEnhanceDataTableRowHandleModule::StartupModule()
 		PropertyModule.RegisterCustomPropertyTypeLayout(
 		FName(EnhanceStructPath.StructName.Mid(1)),
 		FOnGetPropertyTypeCustomizationInstance::CreateStatic(&DTRowHandleCustomization::MakeInstance));
+
+		UnregisterStructNames.Add(FName(EnhanceStructPath.StructName.Mid(1)));
 	}
 	
 	PropertyModule.NotifyCustomizationModuleChanged();
@@ -29,10 +31,9 @@ void FEnhanceDataTableRowHandleModule::ShutdownModule()
 {
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");//
 
-	const UEnhanceDTRowHandleSetting* Settings = GetDefault<UEnhanceDTRowHandleSetting>();
-	for (const FEnhanceDTRowHandleInfo& EnhanceStructPath : Settings->EnhanceStructPaths)
+	for (const FName& StructName : UnregisterStructNames)
 	{
-		PropertyModule.UnregisterCustomClassLayout(FName(EnhanceStructPath.StructName));
+		PropertyModule.UnregisterCustomClassLayout(StructName);
 	}
 	
 	PropertyModule.NotifyCustomizationModuleChanged();

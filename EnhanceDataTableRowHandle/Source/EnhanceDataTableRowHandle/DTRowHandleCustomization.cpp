@@ -57,9 +57,12 @@ TArray<TSharedPtr<FName>> DTRowHandleCustomization::GetAllRowNames(const FString
 		if(EnhanceStructPath.StructName == StructName)
 		{
 			const TObjectPtr<UDataTable> DataTable = Cast<UDataTable>(EnhanceStructPath.DataTable.TryLoad());
-			for (const FName& RowName : DataTable->GetRowNames())
+			if( DataTable != nullptr )
 			{
-				OutNames.Add(MakeShared<FName>(RowName));
+				for (const FName& RowName : DataTable->GetRowNames())
+				{
+					OutNames.Add(MakeShared<FName>(RowName));
+				}
 			}
 			return OutNames;
 		}
@@ -111,5 +114,8 @@ void DTRowHandleCustomization::OnPropertyNameSelectionChanged(TSharedPtr<FName> 
 
 FText DTRowHandleCustomization::GetSelectedPropertyName() const
 {
-	return FText::FromName(SelectedPropertyName);
+	FName CurrentSelectedValue;
+	NamePropertyHandle->GetValue(CurrentSelectedValue);
+
+	return FText::FromName(CurrentSelectedValue);
 }
