@@ -45,3 +45,8 @@ UE 插件
 # EnhanceDataTableRowHandle
 
 将 DataTableRowHandle 改为不用选择表，而是从设置中进行绑定
+
+# ProtoAnimatedText
+
+富文本打字机，支持各种材质文字效果
+https://protowlf.com/unreal/printing-text-in-unreal/
