@@ -50,3 +50,5 @@ UE 插件
 
 富文本打字机，支持各种材质文字效果
 https://protowlf.com/unreal/printing-text-in-unreal/
+
+https://protowlf.com/protoanimatedtext/quickstart/
