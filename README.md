@@ -52,3 +52,7 @@ UE 插件
 https://protowlf.com/unreal/printing-text-in-unreal/
 
 https://protowlf.com/protoanimatedtext/quickstart/
+
+# HaowanSaveGame
+
+多存档
