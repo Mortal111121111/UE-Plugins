@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Modules/ModuleManager.h"
 
-class FEnhanceDataTableRowHandleModule : public IModuleInterface
+class FEnhanceDataTableRowHandleEditorModule : public IModuleInterface
 {
 public:
 
@@ -14,5 +14,5 @@ public:
 	virtual void ShutdownModule() override;
 
 private:
-	// TArray<FName> UnregisterStructNames;
+	TArray<FName> UnregisterStructNames;
 };

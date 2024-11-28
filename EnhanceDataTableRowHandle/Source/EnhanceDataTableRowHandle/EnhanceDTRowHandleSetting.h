@@ -14,6 +14,11 @@ struct FEnhanceDTRowHandleBase
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	FName Row;
+
+	bool operator==(const FEnhanceDTRowHandleBase& Other) const
+	{
+		return Row == Other.Row;
+	}
 };
 
 USTRUCT()
@@ -42,4 +47,5 @@ public:
 public:
 	UPROPERTY(config,EditAnywhere,meta=(ConfigRestartRequired=true))
 	TArray<FEnhanceDTRowHandleInfo> EnhanceStructPaths;
+
 };

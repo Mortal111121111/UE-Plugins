@@ -6,6 +6,7 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "SaveGameSubSystem.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FUserIndexChangedEvent,int,CurrentUserIndex,int,OldUserIndex);
 /**
  * 
  */
@@ -16,10 +17,15 @@ class HAOWANSAVEGAME_API USaveGameSubSystem : public UGameInstanceSubsystem
 
 public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+	virtual void Deinitialize() override;
+	
+public:
+	UPROPERTY(BlueprintAssignable)
+	FUserIndexChangedEvent UserIndexChangedEvent;
 	
 private:
 	UPROPERTY(EditAnywhere)
-	int CurrentUserIndex = 0;
+	int CurrentUserIndex = -1;
 
 public:
 	UFUNCTION(BlueprintCallable)
@@ -27,4 +33,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SetCurrentUserIndex(int InUserIndex);
+
+	
 };

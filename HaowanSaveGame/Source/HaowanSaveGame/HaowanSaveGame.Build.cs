@@ -37,7 +37,7 @@ public class HaowanSaveGame : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"Slate",
-				"SlateCore", "SmartObjectsModule", "SmartObjectsModule", "SmartObjectsModule",
+				"SlateCore",
 				"DeveloperSettings"
 				// ... add private dependencies that you statically link with here ...	
 			}

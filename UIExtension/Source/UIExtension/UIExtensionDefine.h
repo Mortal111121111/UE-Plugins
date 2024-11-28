@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
+#include "UIExtensionDefine.generated.h"
+
 
 struct FTimingTool
 {
@@ -28,4 +30,13 @@ private:
 	float TotalPausedTime{0}; // 总共暂停时间 单位秒
 	bool bIsPaused{false}; // 当前是否正在暂停
 	TWeakObjectPtr<UObject> Owner; // 需要UObject获取当前时间
+};
+
+USTRUCT(BlueprintType)
+struct FEnhanceText
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FText TextValue;
 };

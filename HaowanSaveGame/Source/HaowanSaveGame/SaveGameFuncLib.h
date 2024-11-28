@@ -20,18 +20,30 @@ public:
 	// SaveGame
 	UFUNCTION(BlueprintCallable,meta = (DeterminesOutputType = "Cls"))
 	static USaveGame* CreateSaveGameByCls(TSubclassOf<USaveGame> Cls);
+
+	UFUNCTION(BlueprintCallable)
+	static bool DestroySaveGame(FString Slot,int UserIndex);
 	
 	UFUNCTION(BlueprintCallable,meta = (WorldContext="WorldContextObject"))
-	static bool DestroySaveGame(UObject* WorldContextObject,FString Slot);
+	static bool DestroyCurrentUserSaveGame(UObject* WorldContextObject,FString Slot);
+	
+	UFUNCTION(BlueprintCallable,meta = (DeterminesOutputType = "Cls"))
+	static USaveGame* GetSaveGameBySlot(TSubclassOf<USaveGame> Cls , FString Slot,int UserIndex);
 	
 	UFUNCTION(BlueprintCallable,meta = (DeterminesOutputType = "Cls",WorldContext="WorldContextObject"))
-	static USaveGame* GetSaveGameBySlot(UObject* WorldContextObject,TSubclassOf<USaveGame> Cls , FString Slot);
+	static USaveGame* GetCurrentUserSaveGameBySlot(UObject* WorldContextObject,TSubclassOf<USaveGame> Cls , FString Slot);
 
+	UFUNCTION(BlueprintCallable)
+	static bool CheckSaveGameExist(FString Slot,int UserIndex);
+	
 	UFUNCTION(BlueprintCallable,meta = (WorldContext="WorldContextObject"))
-	static bool CheckSaveGameExist(UObject* WorldContextObject,FString Slot);
+	static bool CheckCurrentUserSaveGameExist(UObject* WorldContextObject,FString Slot);
 
+	UFUNCTION(BlueprintCallable)
+	static bool SaveGameBySlot(USaveGame* InSaveGame , FString Slot , int UserIndex);
+	
 	UFUNCTION(BlueprintCallable,meta = (WorldContext="WorldContextObject"))
-	static bool SaveGameBySlot(UObject* WorldContextObject,USaveGame* InSaveGame , FString Slot);
+	static bool SaveCurrentUserGameBySlot(UObject* WorldContextObject,USaveGame* InSaveGame , FString Slot);
 
 	// UserIndex
 
@@ -45,6 +57,10 @@ public:
 
 	/* 获取所有用户 id */
 	UFUNCTION(BlueprintCallable)
+	static bool CheckUserIndex(int UserIndex);
+	
+	/* 获取所有用户 id */
+	UFUNCTION(BlueprintCallable)
 	static TArray<int> GetAllUserIndex();
 
 	UFUNCTION(BlueprintCallable,meta = (WorldContext="WorldContextObject"))
@@ -56,5 +72,5 @@ public:
 	static UUserIndexSaveGame* GetUserIndexSaveGame();
 
 private:
-	static FString GetSaveGameSlotNameByIndex(const UObject* WorldContextObject, const FString& Slot);
+	static FString GetSaveGameSlot(const FString& Slot , const int UserIndex);
 };

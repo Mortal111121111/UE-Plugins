@@ -19,6 +19,11 @@ void USaveGameSubSystem::Initialize(FSubsystemCollectionBase& Collection)
 	}
 }
 
+void USaveGameSubSystem::Deinitialize()
+{
+	Super::Deinitialize();
+}
+
 int USaveGameSubSystem::GetCurrentUserIndex() const
 {
 	return CurrentUserIndex;
@@ -26,5 +31,7 @@ int USaveGameSubSystem::GetCurrentUserIndex() const
 
 void USaveGameSubSystem::SetCurrentUserIndex(int InUserIndex)
 {
+	const int OldUserIndex = CurrentUserIndex;
 	CurrentUserIndex = InUserIndex;
+	UserIndexChangedEvent.Broadcast(InUserIndex,OldUserIndex);
 }

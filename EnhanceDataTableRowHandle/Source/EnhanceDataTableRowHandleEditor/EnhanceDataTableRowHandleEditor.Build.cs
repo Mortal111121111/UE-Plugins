@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class UIExtension : ModuleRules
+public class EnhanceDataTableRowHandleEditor : ModuleRules
 {
-	public UIExtension(ReadOnlyTargetRules Target) : base(Target)
+	public EnhanceDataTableRowHandleEditor(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		
@@ -18,7 +18,6 @@ public class UIExtension : ModuleRules
 		PrivateIncludePaths.AddRange(
 			new string[] {
 				// ... add other private include paths required here ...
-				
 			}
 			);
 			
@@ -27,8 +26,16 @@ public class UIExtension : ModuleRules
 			new string[]
 			{
 				"Core",
-				"UMG",
+				"Engine",
+				"Slate",
+				"SlateCore",
+				"PropertyEditor",
 				"DeveloperSettings",
+				"GraphEditor",
+				"EnhanceDataTableRowHandle",
+				"SlateCore",
+				"UnrealEd",
+				"AssetRegistry"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -41,6 +48,13 @@ public class UIExtension : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+				"PropertyEditor",
+				"DeveloperSettings",
+				"GraphEditor",
+				// "UnrealEd",
+				// "EditorWidgets",
+				// "UMG",
+				"InputCore"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

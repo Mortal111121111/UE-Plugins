@@ -22,5 +22,5 @@ public:
 	int CurrentIndex = 0;
 
 	UPROPERTY(BlueprintReadWrite)
-	int CurrentUserIndex = 1;
+	int CurrentUserIndex = -1;
 };

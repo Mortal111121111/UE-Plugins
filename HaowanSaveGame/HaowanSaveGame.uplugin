@@ -18,7 +18,7 @@
 		{
 			"Name": "HaowanSaveGame",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "PreDefault"
 		}
 	]
 }

@@ -9,7 +9,7 @@
 #include "UserIndexSaveGame.h"
 #include "Kismet/GameplayStatics.h"
 
-USaveGame* USaveGameFuncLib::GetSaveGameBySlot(UObject* WorldContextObject, TSubclassOf<USaveGame> Cls, FString Slot)
+USaveGame* USaveGameFuncLib::GetCurrentUserSaveGameBySlot(UObject* WorldContextObject, TSubclassOf<USaveGame> Cls, FString Slot)
 {
 	const int UserIndex = GetCurrentUserIndex(WorldContextObject);
 	if( UserIndex <= 0 )
@@ -17,8 +17,13 @@ USaveGame* USaveGameFuncLib::GetSaveGameBySlot(UObject* WorldContextObject, TSub
 		UE_LOG(LogHaowanSaveGame,Log,TEXT("UserIndex = %d , Error UserIndex! "),UserIndex);
 		return nullptr;
 	}
+	
+	return GetSaveGameBySlot(Cls,Slot,UserIndex);
+}
 
-	const FString NewSlot = GetSaveGameSlotNameByIndex(WorldContextObject,Slot);
+USaveGame* USaveGameFuncLib::GetSaveGameBySlot(TSubclassOf<USaveGame> Cls, FString Slot, int UserIndex)
+{
+	const FString NewSlot = GetSaveGameSlot(Slot,UserIndex);
 	const TObjectPtr<USaveGame> OutSaveGame = UGameplayStatics::LoadGameFromSlot(NewSlot,0);
 	if(OutSaveGame == nullptr)
 	{
@@ -29,7 +34,7 @@ USaveGame* USaveGameFuncLib::GetSaveGameBySlot(UObject* WorldContextObject, TSub
 	return OutSaveGame;
 }
 
-bool USaveGameFuncLib::CheckSaveGameExist(UObject* WorldContextObject, FString Slot)
+bool USaveGameFuncLib::CheckCurrentUserSaveGameExist(UObject* WorldContextObject, FString Slot)
 {
 	const int UserIndex = GetCurrentUserIndex(WorldContextObject);
 	if( UserIndex <= 0 )
@@ -38,24 +43,42 @@ bool USaveGameFuncLib::CheckSaveGameExist(UObject* WorldContextObject, FString S
 		return false;
 	}
 
-	const FString NewSlot = GetSaveGameSlotNameByIndex(WorldContextObject,Slot);
+	return CheckSaveGameExist(Slot,UserIndex);
+}
+
+bool USaveGameFuncLib::CheckSaveGameExist(FString Slot, int UserIndex)
+{
+	const FString NewSlot = GetSaveGameSlot(Slot,UserIndex);
 	return UGameplayStatics::DoesSaveGameExist(NewSlot,0);
 }
 
-bool USaveGameFuncLib::SaveGameBySlot(UObject* WorldContextObject, USaveGame* InSaveGame, FString Slot)
+bool USaveGameFuncLib::SaveGameBySlot(USaveGame* InSaveGame, FString Slot, int UserIndex)
 {
-	const int UserIndex = GetCurrentUserIndex(WorldContextObject);
-	if( UserIndex <= 0 )
+	if( InSaveGame == nullptr )
 	{
+		UE_LOG(LogHaowanSaveGame,Log,TEXT("InSaveGame is Invalid! "));
 		return false;
 	}
-
-	const FString NewSlot = GetSaveGameSlotNameByIndex(WorldContextObject,Slot);
+	
+	const FString NewSlot = GetSaveGameSlot(Slot,UserIndex);
 	UGameplayStatics::SaveGameToSlot(InSaveGame,NewSlot,0);
+	
 	return true;
 }
 
-bool USaveGameFuncLib::DestroySaveGame(UObject* WorldContextObject, FString Slot)
+bool USaveGameFuncLib::SaveCurrentUserGameBySlot(UObject* WorldContextObject, USaveGame* InSaveGame, FString Slot)
+{
+	const int UserIndex = GetCurrentUserIndex(WorldContextObject);
+	if( UserIndex <= 0 )
+	{
+		return false;
+	}
+	
+	return SaveGameBySlot(InSaveGame,Slot,UserIndex);
+}
+
+
+bool USaveGameFuncLib::DestroyCurrentUserSaveGame(UObject* WorldContextObject, FString Slot)
 {
 	const int UserIndex = GetCurrentUserIndex(WorldContextObject);
 	if( UserIndex <= 0 )
@@ -63,7 +86,14 @@ bool USaveGameFuncLib::DestroySaveGame(UObject* WorldContextObject, FString Slot
 		return false;
 	}
 
-	const FString NewSlot = GetSaveGameSlotNameByIndex(WorldContextObject,Slot);
+	const FString NewSlot = GetSaveGameSlot(Slot,UserIndex);
+	UGameplayStatics::DeleteGameInSlot(NewSlot,0);
+	return true;
+}
+
+bool USaveGameFuncLib::DestroySaveGame(const FString Slot, const int UserIndex)
+{
+	const FString NewSlot = GetSaveGameSlot(Slot,UserIndex);
 	UGameplayStatics::DeleteGameInSlot(NewSlot,0);
 	return true;
 }
@@ -74,7 +104,6 @@ USaveGame* USaveGameFuncLib::CreateSaveGameByCls(TSubclassOf<USaveGame> Cls)
 }
 
 // UserIndex
-
 bool USaveGameFuncLib::AddUserIndex()
 {
 	const TObjectPtr<UUserIndexSaveGame> UserIndexSaveGame = GetUserIndexSaveGame();
@@ -112,12 +141,23 @@ bool USaveGameFuncLib::DeleteUserIndex(UObject* WorldContextObject, int UserInde
 	// 清理所有相关 sav 文件
 	for (FString SaveNameSlot: Setting->SaveNameSlotList)
 	{
-		const FString NewSlot = GetSaveGameSlotNameByIndex(WorldContextObject,SaveNameSlot);
+		const FString NewSlot = GetSaveGameSlot(SlotName,UserIndex);
 		UGameplayStatics::DeleteGameInSlot(NewSlot,0);
 	}
 	
 	UE_LOG(LogHaowanSaveGame,Log,TEXT("RemoveUserIndex Succeed! , UserIndex = %d"),UserIndex);
 	return true;
+}
+
+bool USaveGameFuncLib::CheckUserIndex(int UserIndex)
+{
+	const TObjectPtr<UUserIndexSaveGame> UserIndexSaveGame = GetUserIndexSaveGame();
+	if( UserIndexSaveGame == nullptr )
+	{
+		return false;
+	}
+	
+	return UserIndexSaveGame->UserIndexList.Find(UserIndex) != -11;
 }
 
 TArray<int> USaveGameFuncLib::GetAllUserIndex()
@@ -186,14 +226,8 @@ UUserIndexSaveGame* USaveGameFuncLib::GetUserIndexSaveGame()
 	return Cast<UUserIndexSaveGame>(OutSaveGame);
 }
 
-FString USaveGameFuncLib::GetSaveGameSlotNameByIndex(const UObject* WorldContextObject, const FString& Slot)
+FString USaveGameFuncLib::GetSaveGameSlot(const FString& Slot, const int UserIndex)
 {
-	const int UserIndex = GetCurrentUserIndex(WorldContextObject);
-	if( UserIndex <= 0 )
-	{
-		UE_LOG(LogHaowanSaveGame,Log,TEXT("UserIndex = %d , Error UserIndex! "),UserIndex);
-		return "";
-	}
-	
 	return Slot + "_" + FString::FromInt(UserIndex);
 }
+

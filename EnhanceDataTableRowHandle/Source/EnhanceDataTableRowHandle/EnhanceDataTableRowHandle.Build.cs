@@ -29,9 +29,7 @@ public class EnhanceDataTableRowHandle : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				"PropertyEditor",
 				"DeveloperSettings",
-				"GraphEditor",
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -44,12 +42,7 @@ public class EnhanceDataTableRowHandle : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
-				"PropertyEditor",
 				"DeveloperSettings",
-				"GraphEditor",
-				// "UnrealEd",
-				// "EditorWidgets",
-				// "UMG",
 				"InputCore"
 				// ... add private dependencies that you statically link with here ...	
 			}
