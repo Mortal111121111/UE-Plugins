@@ -9,13 +9,14 @@
 #include "UIManager/UIManagerDefine.h"
 #include "UIManager/UIManagerSubSystem.h"
 #include "UIManager/DataTable/UIDataTable.h"
+#include "UIManager/Misc/UIManagerInterface.h"
 #include "UIManager/Misc/UIManagerSetting.h"
 
 class UUIDataTable;
 class UUIManagerSetting;
 class FAssetToolsModule;
 
-UUserWidget* UUIManagerLib::OpenUI(UObject* WorldContextObject, FName UIName, bool& bIsOpenSucceed)
+UUserWidget* UUIManagerLib::OpenUI(UObject* WorldContextObject, FName UIName, const FInstancedStruct& Params,bool& bIsOpenSucceed)
 {
 	const TObjectPtr<UWorld> World = WorldContextObject->GetWorld();
 	if(World == nullptr)
@@ -31,8 +32,9 @@ UUserWidget* UUIManagerLib::OpenUI(UObject* WorldContextObject, FName UIName, bo
 		return nullptr;
 	}
 	
-	const TObjectPtr<UUserWidget> NewWidget = SubSystem->CreateUI(UIName);
+	const TObjectPtr<UUserWidget> NewWidget = SubSystem->CreateUI(UIName,Params);
 	bIsOpenSucceed = NewWidget != nullptr;
+	
 	return NewWidget;
 }
 

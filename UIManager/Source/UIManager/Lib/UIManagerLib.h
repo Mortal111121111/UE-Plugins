@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "InstancedStruct.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "UIManager/UIManagerDefine.h"
 #include "UIManagerLib.generated.h"
@@ -18,7 +19,7 @@ class UIMANAGER_API UUIManagerLib : public UBlueprintFunctionLibrary
 public:
 	//BlueprintInternalUseOnly=true,ExpandBoolAsExecs = "bIsOpenSucceed"
 	UFUNCTION(BlueprintCallable,meta=(BlueprintInternalUseOnly=true))
-	static UUserWidget* OpenUI(UObject* WorldContextObject , FName UIName, bool& bIsOpenSucceed);
+	static UUserWidget* OpenUI(UObject* WorldContextObject , FName UIName, const FInstancedStruct& Params, bool& bIsOpenSucceed);
 
 	UFUNCTION(BlueprintCallable,meta=(BlueprintInternalUseOnly=true))
 	static void CloseUI(UObject* WorldContextObject , FName UIName);

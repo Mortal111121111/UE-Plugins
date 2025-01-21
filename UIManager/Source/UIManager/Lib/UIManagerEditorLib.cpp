@@ -7,6 +7,7 @@
 #include "DataTableEditorUtils.h"
 #include "WidgetBlueprint.h"
 #include "AssetRegistry/IAssetRegistry.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Framework/Notifications/NotificationManager.h"
 #include "UIManager/UIManagerDefine.h"
 #include "UIManager/DataTable/UIDataTable.h"

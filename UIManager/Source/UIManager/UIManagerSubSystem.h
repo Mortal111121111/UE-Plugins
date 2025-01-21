@@ -7,6 +7,7 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "UIManagerSubSystem.generated.h"
 
+struct FInstancedStruct;
 /**
  * 
  */
@@ -17,9 +18,13 @@ class UIMANAGER_API UUIManagerSubSystem : public UGameInstanceSubsystem
 
 public:
 	UUserWidget* FindUI(FName UIName) const;
-	UUserWidget* CreateUI(FName UIName);
+	UUserWidget* CreateUI(FName UIName,const FInstancedStruct& Params);
 	void DestroyUI(FName UIName);
 	void DestroyAllUI();
+
+private:
+	void InitUI(UUserWidget* UI,const FInstancedStruct& Params);
+	void UnInitUI(UUserWidget* UI);
 	
 private:
 	TMap<FName,FUIInfo> UIInfoList;

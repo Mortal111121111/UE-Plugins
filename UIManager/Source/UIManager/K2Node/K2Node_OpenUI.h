@@ -36,6 +36,7 @@ private:
 	UEdGraphPin* GetThenPin() const;
 	UEdGraphPin* GetWorldContextObjectPin() const;
 	UEdGraphPin* GetUINamePin() const;
+	UEdGraphPin* GetParamsPin() const;
 	UEdGraphPin* GetFailedPin() const;
 	UEdGraphPin* GetResultPin() const;
 

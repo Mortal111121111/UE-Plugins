@@ -46,7 +46,9 @@ public class UIManager : ModuleRules
 				"KismetCompiler",
 				"DeveloperSettings",
 				"GraphEditor",
-				"AssetRegistry", "UMGEditor",
+				"AssetRegistry", 
+				"UMGEditor",
+				"StructUtils"
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

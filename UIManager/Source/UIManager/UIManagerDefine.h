@@ -26,18 +26,12 @@ struct FUICreateInfo : public FTableRowBase
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	bool bIsUP = false;
-
-	// UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	// bool bIsSubUI = false;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int ZOrder = 0;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	bool bIsOpenPauseGame = false;
-
-	// UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	// EUIInputMode InputMode = EUIInputMode::GameOnly;
 };
 
 struct FUIAssetInfo
@@ -52,8 +46,10 @@ struct FUIAssetInfo
 struct FUIInfo
 {
 	FUIInfo(){};
-	FUIInfo(UUserWidget* InWidget, const FUICreateInfo& InCreateInfo) : Widget(InWidget),CreateInfo(InCreateInfo) {};
+	FUIInfo(UUserWidget* InWidget, bool InIsResetPauseGame,bool InIsResetShowMouse) :
+		Widget(InWidget),bIsResetPauseGame(InIsResetPauseGame),bIsResetShowMouse(InIsResetShowMouse){};
 
 	TObjectPtr<UUserWidget> Widget;
-	FUICreateInfo CreateInfo;
+	bool bIsResetPauseGame = false;
+	bool bIsResetShowMouse = false;
 };

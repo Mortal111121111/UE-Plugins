@@ -18,6 +18,7 @@ namespace OpenUIHelper
 {
 	const FName WorldPinName = "WorldContextObject";
 	const FName UINamePinName = "UIName";
+	const FName ParamsPinName = "Params";
 	const FName CreateFailedPinName = "CreateFailed";
 }
 
@@ -32,6 +33,7 @@ void UK2Node_OpenUI::AllocateDefaultPins()
 
 	// UI Name pin
 	CreatePin(EGPD_Input, UEdGraphSchema_K2::PC_Name, OpenUIHelper::UINamePinName);
+	CreatePin(EGPD_Input, UEdGraphSchema_K2::PC_Struct, OpenUIHelper::ParamsPinName);
 
 	// Output
 	UEdGraphPin* SucceedPin = CreatePin(EGPD_Output, UEdGraphSchema_K2::PC_Exec, UEdGraphSchema_K2::PN_Then);
@@ -58,11 +60,14 @@ void UK2Node_OpenUI::ExpandNode(FKismetCompilerContext& CompilerContext, UEdGrap
 	// Link
 	CompilerContext.MovePinLinksToIntermediate(*GetExecPin(), *(OpenUIFunction->GetExecPin()));
 	
-	UEdGraphPin* WorldContextObjectFuncPin = OpenUIFunction->FindPinChecked(TEXT("WorldContextObject"));
+	UEdGraphPin* WorldContextObjectFuncPin = OpenUIFunction->FindPinChecked(OpenUIHelper::WorldPinName);
 	CompilerContext.MovePinLinksToIntermediate(*GetWorldContextObjectPin(), *WorldContextObjectFuncPin);
 
-	UEdGraphPin* UINameFuncPin = OpenUIFunction->FindPinChecked(TEXT("UIName"));
+	UEdGraphPin* UINameFuncPin = OpenUIFunction->FindPinChecked(OpenUIHelper::UINamePinName);
 	CompilerContext.MovePinLinksToIntermediate(*GetUINamePin(), *UINameFuncPin);
+
+	UEdGraphPin* ParamsFuncPin = OpenUIFunction->FindPinChecked(OpenUIHelper::ParamsPinName);
+	CompilerContext.MovePinLinksToIntermediate(*GetParamsPin(), *ParamsFuncPin);
 
 	UEdGraphPin* OutWidgetFuncPin = OpenUIFunction->FindPinChecked(UEdGraphSchema_K2::PN_ReturnValue);
 	UEdGraphPin* ResultPin = GetResultPin();
@@ -143,6 +148,13 @@ UEdGraphPin* UK2Node_OpenUI::GetWorldContextObjectPin() const
 UEdGraphPin* UK2Node_OpenUI::GetUINamePin() const
 {
 	UEdGraphPin* Pin = FindPinChecked(OpenUIHelper::UINamePinName);
+	check(Pin->Direction == EGPD_Input);
+	return Pin;
+}
+
+UEdGraphPin* UK2Node_OpenUI::GetParamsPin() const
+{
+	UEdGraphPin* Pin = FindPinChecked(OpenUIHelper::ParamsPinName);
 	check(Pin->Direction == EGPD_Input);
 	return Pin;
 }
