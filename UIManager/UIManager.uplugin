@@ -19,6 +19,22 @@
 			"Name": "UIManager",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "UIManagerDev",
+			"Type": "UncookedOnly",
+			"LoadingPhase": "PostDefault"
+		},
+		{
+			"Name": "UIManagerEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "StructUtils",
+			"Enabled": true
 		}
 	]
 }

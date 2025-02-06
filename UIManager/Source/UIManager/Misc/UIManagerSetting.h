@@ -9,15 +9,15 @@
 /**
  * 
  */
-UCLASS(Config="Game")
+UCLASS( Config = Game, DefaultConfig )
 class UIMANAGER_API UUIManagerSetting : public UDeveloperSettings
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	UPROPERTY(config,EditAnywhere,Category="DataTable",meta=(AllowedClasses="UIDataTable"))
-	FSoftObjectPath UIDataTablePath;
+    UPROPERTY( config, EditAnywhere, Category="DataTable", meta=(AllowedClasses="UIDataTable") )
+    FSoftObjectPath UIDataTablePath;
 
 public:
-	virtual FName GetCategoryName() const override { return TEXT("UIManager"); }
+    virtual FName GetCategoryName() const override { return TEXT( "Game" ); }
 };
