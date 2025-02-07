@@ -3,21 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "TabBarItem.h"
 #include "Blueprint/UserWidget.h"
-#include "Components/Button.h"
 #include "Components/CheckBox.h"
 #include "TabBarWidget.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FTabBarSelectedIndexChangedEvent,int32,SelectedIndex,int32,LastSelectedIndex);
-
-UENUM(BlueprintType)
-enum class ETabBarDelegateType : uint8
-{
-	None,
-	Button,
-	CheckBox,
-	Custom,
-};
 
 /**
  * 
@@ -29,7 +20,7 @@ class UIEXTENSION_API UTabBarWidget : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void RegisterContainerWidget(UPanelWidget* ContainerWidget,ETabBarDelegateType DelegateType);
+	void RegisterContainerWidget(UPanelWidget* ContainerWidget);
 
 	UFUNCTION(BlueprintCallable)
 	void UnRegisterContainerWidget(UPanelWidget* ContainerWidget);
@@ -38,16 +29,11 @@ public:
 	void SetDefaultSelectedTabBar(int32 Index = 0);
 
 	UFUNCTION(BlueprintCallable)
-	void ChangedSelectedTabBar(int32 NewIndex);
+	void ChangedSelectedItem(int32 NewIndex);
 
 private:
-	void BindTabBarDelegate(UWidget* Widget , int32 Index);
-	void BindTabBarDelegate(UButton* ButtonWidget, int32 Index);
-	void BindTabBarDelegate(UCheckBox* CheckBoxWidget, int32 Index);
-	void BindTabBarDelegate(UUserWidget* UserWidget, int32 Index);
-
-	UFUNCTION()
-	void OnTabBarItemTrigger();
+	void BindTabBarDelegate(UTabBarItem* Widget , int32 Index);
+	void OnTabBarItemClick(int32 Index);
 	
 public:
 	UPROPERTY(BlueprintAssignable)
@@ -55,7 +41,10 @@ public:
 	
 private:
 	UPROPERTY()
-	TObjectPtr<UPanelWidget> TabbarContainer;
+	TObjectPtr<UPanelWidget> TabBarContainer;
 
-	int32 SelectedIndex = 0;
+	UPROPERTY()
+	TArray<TObjectPtr<UTabBarItem>> TabBarItems;
+
+	int32 SelectedIndex = -1;
 };
