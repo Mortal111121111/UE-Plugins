@@ -29,7 +29,8 @@ UE 插件
 # UIExtension
 
 一些常用的小功能 UI
-- TabBar
+
+- TabBar ： 目前使用侵入式解决，可以利用 Object 外置逻辑做到完全无感，也不需要使用自己提高的类，但是可能毕竟费
 - SecondConfirm
 - AutoWriterRichText
 - KTimerText
