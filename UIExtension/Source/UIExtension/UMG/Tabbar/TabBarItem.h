@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TabBarItem.h"
 #include "Blueprint/UserWidget.h"
 #include "TabBarItem.generated.h"
 
@@ -22,7 +21,7 @@ public:
 	void UnInitTabBarItem();
 
 	UFUNCTION(BlueprintCallable)
-	void OnTriggerOnClick();
+	void TriggerOnClick();
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void BP_TabBarItemActivate();

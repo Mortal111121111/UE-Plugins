@@ -12,7 +12,7 @@ void UTabBarItem::UnInitTabBarItem()
 {
 }
 
-void UTabBarItem::OnTriggerOnClick()
+void UTabBarItem::TriggerOnClick()
 {
 	TabBarItemOnClickEvent.Broadcast(Index);
 }

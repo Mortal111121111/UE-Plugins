@@ -55,13 +55,13 @@ void UTabBarWidget::OnTabBarItemClick(const int32 Index)
 
 void UTabBarWidget::ChangedSelectedItem(const int32 NewIndex)
 {
-	if (!TabBarItems.Contains(NewIndex) || SelectedIndex == NewIndex )
+	if (!TabBarItems.IsValidIndex(NewIndex) || SelectedIndex == NewIndex )
 	{
 		return;
 	}
 
 	TabBarItems[NewIndex]->BP_TabBarItemActivate();
-	TabBarItems[SelectedIndex]->BP_TabBarItemActivate();
+	TabBarItems[SelectedIndex]->BP_TabBarItemDeActivate();
 	
 	TabBarSelectedIndexChangedEvent.Broadcast(NewIndex,SelectedIndex);
 	SelectedIndex = NewIndex;
