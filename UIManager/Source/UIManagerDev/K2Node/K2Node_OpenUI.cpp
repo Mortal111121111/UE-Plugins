@@ -128,7 +128,7 @@ void UK2Node_OpenUI::GetMenuActions( FBlueprintActionDatabaseRegistrar& ActionRe
 
 FText UK2Node_OpenUI::GetMenuCategory() const
 {
-    return FEditorCategoryUtils::GetCommonCategory( FCommonEditorCategory::Utilities );;
+    return FEditorCategoryUtils::GetCommonCategory( FCommonEditorCategory::Utilities );
 }
 
 void UK2Node_OpenUI::EarlyValidation( FCompilerResultsLog& MessageLog ) const

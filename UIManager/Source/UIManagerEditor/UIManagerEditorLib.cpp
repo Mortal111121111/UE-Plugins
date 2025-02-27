@@ -54,7 +54,8 @@ void UUIManagerEditorLib::GenerateUICreateInfo()
 	{
 		return;
 	}
-
+	
+	UIDataTable->Modify();
 	TMap<FName,FUIAssetInfo> AllUIAssetInfo = FindAllUIAssetInfo();
 
 	// 表里有，但是没有遍历到，删除
