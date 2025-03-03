@@ -16,16 +16,16 @@ UUserWidget* UUIManagerSubSystem::FindUI( FName UIName ) const
         return nullptr;
     }
     const FUIInfo Info = *UIInfoList.Find( UIName );
-    return Info.Widget;
+    return Info.Widget.Get();
 }
 
 UUserWidget* UUIManagerSubSystem::CreateUI( FName UIName, const FInstancedStruct& Params )
 {
-    // 防止不重复开启
+    // Remove 上一个
     if(UIInfoList.Contains( UIName ))
     {
+        DestroyUI( UIName );
         UE_LOG( LogUIManagerPlugin, Warning, TEXT("%s , Created"), *UIName.ToString() );
-        return nullptr;
     }
 
     FUICreateInfo CreateInfo;
@@ -71,10 +71,12 @@ void UUIManagerSubSystem::DestroyUI( FName UIName )
         return;
     }
 
-    const FUIInfo Info = *UIInfoList.Find( UIName );
-    const TObjectPtr<UUserWidget> Widget = Info.Widget;
+    const FUIInfo Info = UIInfoList.FindChecked( UIName );
+    const TObjectPtr<UUserWidget> Widget = Info.Widget.Get();
+
     if(!IsValid( Widget ))
     {
+        UIInfoList.Remove( UIName );
         return;
     }
 
@@ -99,7 +101,7 @@ void UUIManagerSubSystem::DestroyAllUI()
 
 void UUIManagerSubSystem::InitUI( UUserWidget* UI, const FInstancedStruct& Params )
 {
-    if(UI->GetClass()->ImplementsInterface( UUIManagerInterface::StaticClass() ))
+    if(UI != nullptr && UI->GetClass()->ImplementsInterface( UUIManagerInterface::StaticClass() ))
     {
         IUIManagerInterface* IM = Cast<IUIManagerInterface>( UI );
         IM->OnOpenUI( Params );
@@ -108,7 +110,7 @@ void UUIManagerSubSystem::InitUI( UUserWidget* UI, const FInstancedStruct& Param
 
 void UUIManagerSubSystem::UnInitUI( UUserWidget* UI )
 {
-    if(UI->GetClass()->ImplementsInterface( UUIManagerInterface::StaticClass() ))
+    if(UI != nullptr && UI->GetClass()->ImplementsInterface( UUIManagerInterface::StaticClass() ))
     {
         IUIManagerInterface* IM = Cast<IUIManagerInterface>( UI );
         IM->OnCloseUI();

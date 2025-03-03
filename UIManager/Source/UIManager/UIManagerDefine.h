@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
+#include "Blueprint/UserWidget.h"
 #include "UIManagerDefine.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN( LogUIManagerPlugin, Log, All );
@@ -37,8 +38,11 @@ struct FUICreateInfo : public FTableRowBase
     bool bIsShowMouse = true;
 };
 
+USTRUCT()
 struct FUIAssetInfo
 {
+    GENERATED_BODY()
+
     FUIAssetInfo()
     {
     };
@@ -48,11 +52,16 @@ struct FUIAssetInfo
     };
 
     FName Name;
+
+    UPROPERTY()
     TSubclassOf<UUserWidget> Cls;
 };
 
+USTRUCT()
 struct FUIInfo
 {
+    GENERATED_BODY()
+
     FUIInfo()
     {
     };
@@ -62,7 +71,9 @@ struct FUIInfo
     {
     };
 
-    TObjectPtr<UUserWidget> Widget;
+    UPROPERTY()
+    TWeakObjectPtr<UUserWidget> Widget;
+
     bool bIsResetPauseGame = false;
     bool bIsResetShowMouse = false;
 };
