@@ -65,3 +65,4 @@ https://protowlf.com/protoanimatedtext/quickstart/
 # CustomToolBarExtend
 
 自定义工具栏扩展插件
+功能 ：通过配置方式动态增加按钮
