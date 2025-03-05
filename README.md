@@ -61,3 +61,7 @@ https://protowlf.com/protoanimatedtext/quickstart/
 # HaowanSaveGame
 
 多存档
+
+# CustomToolBarExtend
+
+自定义工具栏扩展插件
