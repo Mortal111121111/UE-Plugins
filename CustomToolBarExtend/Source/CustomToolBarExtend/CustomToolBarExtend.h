@@ -18,9 +18,12 @@ private:
     void RegisterMenus();
     void UnregisterMenus();
 
+    TSharedRef<SWidget> MakeComboButtonWidgets();
+    
     // Action Func
     void PluginActionButtonOnClicked();
-
+    void PluginActionButtonOnClicked_1();
+    void PluginActionButtonOnClicked_2();
 private:
     TSharedPtr<class FUICommandList> PluginCommands;
 };

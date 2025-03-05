@@ -55,21 +55,32 @@ void FCustomToolBarExtendModule::RegisterMenus()
     //     LOCTEXT( "CustomToolBar", "Test Custom Toolbar" )
     //     ) );
 
-    FToolMenuEntry& MenuEntry = Section.AddEntry( FToolMenuEntry::InitToolBarButton(
-        "CustomToolBar",
-        FToolUIActionChoice( FExecuteAction::CreateRaw( this, &FCustomToolBarExtendModule::PluginActionButtonOnClicked ) )
-        ) );
-
-    MenuEntry.Label = LOCTEXT( "CustomToolBar", "Test Custom Toolbar" );
-    MenuEntry.StyleNameOverride = "CalloutToolbar";
-    MenuEntry.SetCommandList( PluginCommands );
-
     // FToolMenuEntry& Entry = Section.AddEntry( FToolMenuEntry::InitMenuEntry(
     //         FCustomToolBarCommands::Get().PluginAction,
     //         LOCTEXT( "CustomToolBar", "Test Custom Toolbar" ),
     //         LOCTEXT( "CustomToolBar", "Test Custom Toolbar" )
     //         )
     //     );
+
+    /*FToolMenuEntry& MenuEntry = Section.AddEntry( FToolMenuEntry::InitToolBarButton(
+        "CustomToolBar",
+        FToolUIActionChoice( FExecuteAction::CreateRaw( this, &FCustomToolBarExtendModule::PluginActionButtonOnClicked ) )
+        ) );*/
+
+    FToolMenuEntry& MenuEntry = Section.AddEntry( FToolMenuEntry::InitComboButton(
+    "CustomToolBar",
+            FUIAction(),
+            FOnGetContent::CreateRaw(this, &FCustomToolBarExtendModule::MakeComboButtonWidgets),
+            LOCTEXT("CustomToolBar", "Test Custom Toolbar"),
+            LOCTEXT("CustomToolBar", "Test Test Test Test Test"),
+            FSlateIcon(),
+            false)
+            );
+
+    MenuEntry.Label = LOCTEXT( "CustomToolBar", "Test Custom Toolbar" );
+    MenuEntry.StyleNameOverride = "CalloutToolbar";
+    MenuEntry.SetCommandList( PluginCommands );
+    
 }
 
 void FCustomToolBarExtendModule::UnregisterMenus()
@@ -78,11 +89,50 @@ void FCustomToolBarExtendModule::UnregisterMenus()
     UToolMenus::UnregisterOwner( this );
 }
 
+TSharedRef<SWidget> FCustomToolBarExtendModule::MakeComboButtonWidgets()
+{
+    FMenuBuilder MenuBuilder(true, PluginCommands);
+
+    MenuBuilder.BeginSection("MounteaMenu_Tools", LOCTEXT("MounteaMenuOptions_Settings", "Mountea Dialogue Settings"));
+    {
+        MenuBuilder.AddMenuEntry(
+            LOCTEXT("Test Custom Toolbar", "Button 1"),
+            LOCTEXT("Test Custom Toolbar", "Button 1"),
+            FSlateIcon(),
+            FUIAction(
+                FExecuteAction::CreateRaw(this, &FCustomToolBarExtendModule::PluginActionButtonOnClicked_1)
+            )
+        );
+
+        MenuBuilder.AddMenuEntry(
+            LOCTEXT("Test Custom Toolbar", "Button 2"),
+            LOCTEXT("Test Custom Toolbar", "Button 2"),
+            FSlateIcon(),
+            FUIAction(
+                FExecuteAction::CreateRaw(this, &FCustomToolBarExtendModule::PluginActionButtonOnClicked_2)
+            )
+        );
+    }
+    MenuBuilder.EndSection();
+
+    return MenuBuilder.MakeWidget();
+}
+
 
 /* -------------------------- Plugin Action Func -------------------------- */
 void FCustomToolBarExtendModule::PluginActionButtonOnClicked()
 {
     UE_LOG( LogTemp, Error, TEXT("PluginAction Button Clicked") );
+}
+
+void FCustomToolBarExtendModule::PluginActionButtonOnClicked_1()
+{
+    UE_LOG( LogTemp, Error, TEXT("PluginAction Button 111111111 Clicked") );
+}
+
+void FCustomToolBarExtendModule::PluginActionButtonOnClicked_2()
+{
+    UE_LOG( LogTemp, Error, TEXT("PluginAction Button 2222222222 Clicked") );
 }
 
 /* -------------------------- Plugin Action Func -------------------------- */
