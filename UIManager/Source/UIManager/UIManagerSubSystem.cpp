@@ -30,7 +30,9 @@ UUserWidget* UUIManagerSubSystem::CreateUI( FName UIName, const FInstancedStruct
 
     FUICreateInfo CreateInfo;
     const TObjectPtr<UWorld> World = GetWorld();
-    if(World == nullptr || !UUIManagerLib::GetUICreateInfo( UIName, CreateInfo ))
+    TObjectPtr<APlayerController> Controller = UGameplayStatics::GetPlayerController( World, 0 );
+
+    if(World == nullptr || Controller == nullptr || !UUIManagerLib::GetUICreateInfo( UIName, CreateInfo ))
     {
         return nullptr;
     }
@@ -43,7 +45,6 @@ UUserWidget* UUIManagerSubSystem::CreateUI( FName UIName, const FInstancedStruct
     }
 
     // TODO 后续增加相关监听事件，支持特判手柄是否显示鼠标功能
-    TObjectPtr<APlayerController> Controller = UGameplayStatics::GetPlayerController( World, 0 );
     UIInfo.bIsResetShowMouse = Controller == nullptr ? false : Controller->ShouldShowMouseCursor();
     Controller->SetShowMouseCursor( CreateInfo.bIsShowMouse );
 
