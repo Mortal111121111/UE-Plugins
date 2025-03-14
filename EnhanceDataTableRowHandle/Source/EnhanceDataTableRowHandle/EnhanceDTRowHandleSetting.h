@@ -48,4 +48,7 @@ public:
 	UPROPERTY(config,EditAnywhere,meta=(ConfigRestartRequired=true))
 	TArray<FEnhanceDTRowHandleInfo> EnhanceStructPaths;
 
+	/* 将需要把 DataTable Rows 作为 Name 的选项的 DT,填入这里，Mate 填入 key 即可 */
+	UPROPERTY(config,EditAnywhere,meta=(AllowedClasses="/Script/Engine.DataTable"))
+	TMap<FString,FSoftObjectPath> DataTablePathLinks;
 };

@@ -2,7 +2,10 @@
 
 #include "EnhanceDataTableRowHandleEditor.h"
 
+#include "BlueprintEditorModule.h"
 #include "DTRowHandleCustomization.h"
+#include "DTRowOptionNamePropertyCustomization.h"
+#include "DTRowOptionNamePropertyDetailCustomization.h"
 #include "EnhanceDataTableRowHandle/EnhanceDTRowHandleSetting.h"
 
 #define LOCTEXT_NAMESPACE "FEnhanceDataTableRowHandleEditorModule"
@@ -23,8 +26,19 @@ void FEnhanceDataTableRowHandleEditorModule::StartupModule()
 
 		UnregisterStructNames.Add(FName(EnhanceStructPath.StructName.Mid(1)));
 	}
+
+	Identifier = MakeShareable(new FDTRowOptionNamePropertyTypeIdentifier());
+	PropertyModule.RegisterCustomPropertyTypeLayout(
+		FName("NameProperty"),
+		FOnGetPropertyTypeCustomizationInstance::CreateStatic(&DTRowOptionNamePropertyCustomization::MakeInstance),
+		Identifier
+		);
+	UnregisterStructNames.Add(FName("NameProperty"));
 	
 	PropertyModule.NotifyCustomizationModuleChanged();
+
+	FBlueprintEditorModule& BlueprintEditorModule = FModuleManager::LoadModuleChecked<FBlueprintEditorModule>("Kismet");
+	DTRowOptionNameDelegateHandle = BlueprintEditorModule.RegisterVariableCustomization(FNameProperty::StaticClass(),FOnGetVariableCustomizationInstance::CreateStatic(&FDTRowOptionNamePropertyDetailCustomization::MakeInstance));
 }
 
 void FEnhanceDataTableRowHandleEditorModule::ShutdownModule()
@@ -36,7 +50,11 @@ void FEnhanceDataTableRowHandleEditorModule::ShutdownModule()
 		PropertyModule.UnregisterCustomClassLayout(StructName);
 	}
 	
+	PropertyModule.UnregisterCustomPropertyTypeLayout("NameProperty",Identifier);
 	PropertyModule.NotifyCustomizationModuleChanged();
+
+	FBlueprintEditorModule& BlueprintEditorModule = FModuleManager::LoadModuleChecked<FBlueprintEditorModule>("Kismet");
+	BlueprintEditorModule.UnregisterVariableCustomization(FNameProperty::StaticClass(), DTRowOptionNameDelegateHandle);
 }
 
 #undef LOCTEXT_NAMESPACE

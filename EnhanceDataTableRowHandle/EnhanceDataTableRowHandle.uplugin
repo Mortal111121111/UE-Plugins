@@ -23,7 +23,7 @@
 		{
 			"Name": "EnhanceDataTableRowHandleEditor",
 			"Type": "Editor",
-			"LoadingPhase": "PreDefault"
+			"LoadingPhase": "PostEngineInit"
 		}
 	]
 }
