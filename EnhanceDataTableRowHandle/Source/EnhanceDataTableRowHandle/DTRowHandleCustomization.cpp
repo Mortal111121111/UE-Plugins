@@ -6,6 +6,7 @@
 #include "DetailWidgetRow.h"
 #include "EnhanceDTRowHandleSetting.h"
 #include "PropertyHandle.h"
+#include "Engine/DataTable.h"
 
 TSharedRef<IPropertyTypeCustomization> DTRowHandleCustomization::MakeInstance()
 {

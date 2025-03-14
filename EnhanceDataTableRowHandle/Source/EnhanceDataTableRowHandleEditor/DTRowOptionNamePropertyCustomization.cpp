@@ -139,23 +139,15 @@ void DTRowOptionNamePropertyCustomization::InitCustomPropertyHandle(const TShare
 	const FMapProperty* MapProperty = CastField<FMapProperty>(OwnerProperty);
 	if (MapProperty)
 	{
-		TSharedPtr<IPropertyHandleMap> MapArrayHandle = PropertyHandle->AsMap();
-		auto a = MapArrayHandle->HasDefaultKey();
-		if (MapProperty->HasMetaData(CustomMacro::OptionKeyDataTableRows) )
+		if (MapProperty->HasMetaData(CustomMacro::OptionKeyDataTableRows) && MapProperty->GetKeyProperty() == Property )
 		{
-			if (MapProperty->GetKeyProperty() == Property)
-			{
-				auto a = PropertyHandle->GetKeyHandle();
-				auto b = PropertyHandle->GetChildHandle(0);
-				auto c = PropertyHandle->GetParentHandle();
-				NamePropertyHandle = PropertyHandle->GetKeyHandle();
-				MetaDataName = CustomMacro::OptionKeyDataTableRows;
-			}
+			NamePropertyHandle = PropertyHandle->GetParentHandle();
+			MetaDataName = CustomMacro::OptionKeyDataTableRows;
 		}
 
 		if (MapProperty->HasMetaData(CustomMacro::OptionValueDataTableRows) && MapProperty->GetValueProperty() == Property)
 		{
-			NamePropertyHandle = PropertyHandle->GetChildHandle(1);
+			NamePropertyHandle = PropertyHandle;
 			MetaDataName = CustomMacro::OptionValueDataTableRows;
 		}
 	}
