@@ -34,6 +34,7 @@ UE 插件
 - SecondConfirm
 - AutoWriterRichText ： 聪爷的插件
 - KTimerText : 聪爷的插件
+- SkipNumber : 数值动态变化累加控件，并使用 C++ 动态实现动画
 
 # MyAsyncBlueprint
 

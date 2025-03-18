@@ -29,6 +29,8 @@ public class UIExtension : ModuleRules
 				"Core",
 				"UMG",
 				"DeveloperSettings",
+				"MovieScene",
+				"MovieSceneTracks"
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
