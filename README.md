@@ -71,3 +71,5 @@ https://protowlf.com/protoanimatedtext/quickstart/
 # MyCMDLet
 
 熟悉 UE Commandlet
+
+- 新增使用 Commandlet 通过动画 Asset 路径获取对应动画的骨骼信息，并且写入本地 Json
