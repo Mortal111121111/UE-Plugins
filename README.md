@@ -73,3 +73,10 @@ https://protowlf.com/protoanimatedtext/quickstart/
 熟悉 UE Commandlet
 
 - 新增使用 Commandlet 通过动画 Asset 路径获取对应动画的骨骼信息，并且写入本地 Json
+
+# CustomCsvToDT
+
+手动读取 Csv ,根据自定义的规则构造 Struct 并将其写入 DT
+
+- 重写了 AddDataTableRow 因为原生不能将蓝图声明的结构体写入 DT
+- 提供解决修改 Csv 后导致编码不一致的脚本 bat
