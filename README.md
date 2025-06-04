@@ -30,10 +30,10 @@ UE 插件
 
 一些常用的小功能 UI
 
-- TabBar ： 目前使用侵入式解决，可以利用 Object 外置逻辑做到完全无感，也不需要使用自己提高的类，但是可能毕竟费
-- SecondConfirm
-- AutoWriterRichText ： 聪爷的插件
-- KTimerText : 聪爷的插件
+- TabBar ： 目前使用侵入式解决，可以利用 Object 外置逻辑做到完全无感，也不需要使用自己提供的类，但是可能比较费
+- SecondConfirm ： 通用二次确认框逻辑
+- AutoWriterRichText ： 打字机并支持富文本
+- KTimerText : 计时文本插件
 - SkipNumber : 数值动态变化累加控件，并使用 C++ 动态实现动画
 
 # MyAsyncBlueprint
@@ -51,13 +51,6 @@ UE 插件
 # EnhanceDataTableRowHandle
 
 将 DataTableRowHandle 改为不用选择表，而是从设置中进行绑定
-
-# ProtoAnimatedText
-
-富文本打字机，支持各种材质文字效果
-https://protowlf.com/unreal/printing-text-in-unreal/
-
-https://protowlf.com/protoanimatedtext/quickstart/
 
 # HaowanSaveGame
 
@@ -80,3 +73,10 @@ https://protowlf.com/protoanimatedtext/quickstart/
 
 - 重写了 AddDataTableRow 因为原生不能将蓝图声明的结构体写入 DT
 - 提供解决修改 Csv 后导致编码不一致的脚本 bat
+
+# EasyVariablesExporter
+
+UObject 属性导入导出插件
+
+- 为了方便策划统一配置 GAS GA 的具体数值而封装为插件
+- 目前支持 int、float、bool、string、enum、vector、struct、name、text 数据
